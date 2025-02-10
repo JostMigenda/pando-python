@@ -75,7 +75,7 @@ episodes:
 # Information for Learners
 learners: 
 - setup.md
-- registration.md
+# - registration.md
 - acknowledgements.md
 - ppp.md
 - reference.md
@@ -91,5 +91,5 @@ profiles:
 # This space below is where custom yaml items (e.g. pinning
 # sandpaper and varnish versions) should live
 
-varnish: RSE-Sheffield/uos-varnish@main
-url: 'https://rse.shef.ac.uk/pando-python'
+# varnish: RSE-Sheffield/uos-varnish@main
+# url: 'https://rse.shef.ac.uk/pando-python'
