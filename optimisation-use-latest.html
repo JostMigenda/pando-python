@@ -260,7 +260,7 @@
 <div class="accordion accordion-flush" id="accordionFlush8">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading8">
-        <a href="optimisation-data-structures-algorithms.html">7. Data Structures &amp; Algorithms</a>
+        <a href="optimisation-using-python.html">7. Using Python Language Features and the Standard Library</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -269,7 +269,7 @@
 <div class="accordion accordion-flush" id="accordionFlush9">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading9">
-        <a href="long-break1.html">8. Break</a>
+        <a href="optimisation-data-structures-algorithms.html">8. Data Structures &amp; Algorithms</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -278,7 +278,16 @@
 <div class="accordion accordion-flush" id="accordionFlush10">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading10">
-        <a href="optimisation-minimise-python.html">9. Understanding Python (NumPy/Pandas)</a>
+        <a href="long-break1.html">9. Break</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush11">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading11">
+        <a href="optimisation-minimise-python.html">10. Understanding Python (NumPy/Pandas)</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -290,7 +299,7 @@
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
-        10. Keep Python &amp; Packages up to Date
+        11. Keep Python &amp; Packages up to Date
         </span>
       </button>
     </div><!--/div.accordion-header-->
@@ -305,19 +314,19 @@
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
-<div class="accordion accordion-flush" id="accordionFlush12">
+<div class="accordion accordion-flush" id="accordionFlush13">
   <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading12">
-        <a href="optimisation-memory.html">11. Understanding Memory</a>
+    <div class="accordion-header" id="flush-heading13">
+        <a href="optimisation-memory.html">12. Understanding Memory</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
-<div class="accordion accordion-flush" id="accordionFlush13">
+<div class="accordion accordion-flush" id="accordionFlush14">
   <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading13">
-        <a href="optimisation-conclusion.html">12. Optimisation Conclusion</a>
+    <div class="accordion-header" id="flush-heading14">
+        <a href="optimisation-conclusion.html">13. Optimisation Conclusion</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -381,7 +390,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Keep Python &amp; Packages up to Date</h1>
-        <p>Last updated on 2024-03-28 |
+        <p>Last updated on 2025-02-19 |
 
         <a href="https://github.com/RSE-Sheffield/pando-python/edit/main/episodes/optimisation-use-latest.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -440,6 +449,23 @@ Pandas, should be kept up to date for the same reasons.</p>
 code (unlike the jump from Python 2 to Python 3).</p>
 <p>Performance regressions within major packages should be considered
 rare, they often track performance alongside their test suites.</p>
+<div id="support-for-older-python-versions-in-the-scientific-python-ecosystem" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div id="support-for-older-python-versions-in-the-scientific-python-ecosystem" class="callout-inner">
+<h3 class="callout-title">Support for older Python versions in the Scientific Python ecosystem</h3>
+<div class="callout-content">
+<p>In the last few years, many important packages in the Scientific
+Python ecosystem have agreed <a href="https://scientific-python.org/specs/spec-0000/" class="external-link">a common
+policy</a> on how long to support previous versions of Python. Since
+October 2024, these packages stopped supporting Python 3.10; so if you
+are still using Python 3.10 (or even older versions), you’re now losing
+access to new features and performance improvements in NumPy, SciPy,
+Matplotlib and many other libraries. Time to update!</p>
+</div>
+</div>
+</div>
 <!-- Not always possible due to incompatibilities -->
 <p>However, the more packages and language features your code touches,
 and the older the Python it currently uses, the greater chance of
@@ -454,6 +480,14 @@ results.</p>
 <hr class="half-width"><!-- Not as relevant if you are starting from scratch --><p><em>This isn’t as relevant if you’re starting from scratch. Simply
 make sure you’ve installed the latest Python before you start.</em></p>
 <!-- todo recommended way, because Python is incredibly bad at this -->
+<p>If you have been working with an existing Python installation, the
+upgrade process for Python itself depends on how you installed your
+current version. (E.g. via conda, official installer from python.org,
+package manager like Homebrew/apt/yum/…)</p>
+<p>For packages you’re using, you can update those in the same way you
+installed them: * via <code>pip</code>,
+e.g. <code>pip install --upgrade numpy</code> * via <code>conda</code>,
+e.g. <code>conda update &lt;PACKAGE&gt;</code></p>
 <!-- Worth also mentioning for same reason, to have requirements.txt? -->
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
@@ -535,8 +569,8 @@ any links that you are not going to use.
   "url": "https://RSE-Sheffield.github.io/pando-python/optimisation-use-latest.html",
   "identifier": "https://RSE-Sheffield.github.io/pando-python/optimisation-use-latest.html",
   "dateCreated": "2024-02-01",
-  "dateModified": "2024-03-28",
-  "datePublished": "2025-02-10"
+  "dateModified": "2025-02-19",
+  "datePublished": "2025-02-19"
 }
 
   </script><script>
