@@ -301,7 +301,7 @@
 <div class="accordion accordion-flush" id="accordionFlush11">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading11">
-        <a href="optimisation-minimise-python.html">10. Understanding Python (NumPy/Pandas)</a>
+        <a href="optimisation-minimise-python.html">10. Using Scientific Python Libraries (NumPy, Pandas and more)</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -529,14 +529,16 @@ how many bytes an object takes up:</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>sys.getsizeof(<span class="st">""</span>)  <span class="co"># 41</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>sys.getsizeof(<span class="st">"a"</span>)  <span class="co"># 42</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>sys.getsizeof(<span class="st">"ab"</span>)  <span class="co"># 43</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>sys.getsizeof([])  <span class="co"># 56</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>sys.getsizeof([<span class="st">"a"</span>])  <span class="co"># 64</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>sys.getsizeof(<span class="dv">1</span>)  <span class="co"># 28</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>sys.getsizeof(<span class="st">""</span>)  <span class="co"># 41</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>sys.getsizeof(<span class="st">"a"</span>)  <span class="co"># 42</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>sys.getsizeof(<span class="st">"ab"</span>)  <span class="co"># 43</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>sys.getsizeof([])  <span class="co"># 56</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>sys.getsizeof([<span class="st">"a"</span>])  <span class="co"># 64</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>sys.getsizeof(<span class="dv">1</span>)  <span class="co"># 28</span></span></code></pre>
 </div>
 <p>(Note: For container objects (like lists and dictionaries) or custom
 classes, values returned by <code>getsizeof()</code> are
@@ -556,9 +558,9 @@ perform a lot of the work in such low-level code, before returning a
 nice Python object back to you. (We’ll discuss NumPy in a later section;
 but many parts of the Python standard library also use this
 pattern.)</p>
-<p>Therefore, it is often best to tell the interpreter/library at a high
-level <em>what you want</em>, and let it figure out <em>how to do
-it</em>.</p>
+<p>Therefore, <strong>it is often best to tell the interpreter/library
+at a high level <em>what you want</em>, and let it figure out <em>how to
+do it</em>.</strong></p>
 <p>That way, the interpreter/library is free to do all its work in the
 low-level code, and adds overhead only once, when it creates and returns
 a Python object in the end. This usually makes your code more readable,
