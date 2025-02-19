@@ -379,7 +379,7 @@ Code diff: https://github.com/SNEWS2/snewpy/pull/310/commits/0320b384ff22233818d
 
 Similar to NumPy, Pandas enables greater performance than pure Python implementations when used correctly, however incorrect usage can actively harm performance.
 
-## Operating on Rows
+### Operating on Rows
 
 Pandas' methods by default operate on columns. Each column or series can be thought of as a NumPy array, highly suitable for vectorisation.
 
@@ -511,9 +511,30 @@ series: 237.25ms
 dictionary: 3.63ms
 ```
 
-## Filter Early
+### Filter Early
 
 If you can filter your rows before processing, rather than after, you may significantly reduce the amount of processing and memory used.
+
+## Exercise: Revisiting Predator/Prey
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+During the Profiling section, we found out that the `Grass.eaten()` method (`predprey.py:278`) takes up the majority of the runtime.
+
+Look back at different approaches for improving performance that we’ve learned so far.
+Which ones could be applied to the `Grass.eaten()` method?
+
+<!-- 
+:::::::::::::::::::::::: hint
+
+* Could use NumPy to parallelize calculation of prey distances (instead of a for loop)
+* Could use `min` (or `np.min`) on the array of prey distances to find the closest prey (rather)
+
+:::::::::::::::::::::::::::::::::
+ -->
+:::::::::::::::::::::::::::::::::::::::::::::::
+
+
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 

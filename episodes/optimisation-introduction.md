@@ -21,7 +21,7 @@ exercises: 0
 <!-- Enable you to look at hotspots identified by compiler, identify whether it's efficient -->
 Now that you're able to find the most expensive components of your code with profiling, we can think about ways to improve it.
 However, the best way to do this will depend a lot on your specific code! For example, if your code is spending 60 seconds waiting to download data files and then 1 second to analyse that data, then optimizing your data analysis code won’t make much of a difference.
-We’ll talk briefly about some of these external bottlenecks at the end. For now, we’ll assume that you’re not waiting for anything else we’ll look at the performance of your code.
+We’ll talk briefly about some of these external bottlenecks at the end. For now, we’ll assume that you’re not waiting for anything else and we’ll look at the performance of your code.
 
 <!-- Necessary to understand how code executes (to a degree) -->
 In order to optimise code for performance, it is necessary to have an understanding of what a computer is doing to execute it.
