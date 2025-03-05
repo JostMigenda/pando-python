@@ -393,7 +393,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Data Structures &amp; Algorithms</h1>
-        <p>Last updated on 2025-02-19 |
+        <p>Last updated on 2025-03-05 |
 
         <a href="https://github.com/RSE-Sheffield/pando-python/edit/main/episodes/optimisation-data-structures-algorithms.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -584,20 +584,23 @@ an analogy:</p>
 <p>A Python list is like having a single long bookshelf. When you buy a
 new book (append a new element to the list), you place it at the far end
 of the shelf, right after all the previous books.</p>
-<p>A hashing data structure is more like a bookcase, with several
-shelves, one for each genre: There’s a shelf for detective fiction, a
-shelf for romance novels, a shelf for sci-fi stories, and so on. When
-you buy a new romance novel, you place it on the appropriate shelf, next
-to the previous books in that genre. And as you get more books, at some
-point you’ll move to a larger bookcase with more shelves (and thus more
-fine-grained genre categories), to make sure you don’t have too many
-books on a single shelf.</p>
-<p>Now, let’s say a friend asks me whether I have the book “Dune”. If I
-had my books arranged on a single bookshelf (in a list), I would have to
-look through every book I own in order to find “Dune”. However, if I had
-a bookcase with several shelves (a hashing data structure), I know
-immediately that I need to check the sci-fi shelf, so I’d be able to
-find it much more quickly!</p>
+<figure><img src="fig/bookshelf_list.jpg" alt="An image of a single long bookshelf, with a large number of books." class="figure mx-auto d-block"><div class="figcaption">A bookshelf corresponding to a Python
+list.</div>
+</figure><p>A hashing data structure is more like a bookcase with several
+shelves, labeled by genre (sci-fi, romance, children’s books,
+non-fiction, …) and author surname. When you buy a new book by Jules
+Verne, you might place it on the shelf labeled “Sci-Fi, V–Z”. And if you
+keep adding more books, at some point you’ll move to a larger bookcase
+with more shelves (and thus more fine-grained sorting), to make sure you
+don’t have too many books on a single shelf.</p>
+<figure><img src="fig/bookshelf_dict.jpg" alt="An image of two bookcases, labeled “Sci-Fi” and “Romance”. Each bookcase contains shelves labeled in alphatical order, with zero or few books on each shelf." class="figure mx-auto d-block"><div class="figcaption">A bookshelf corresponding to a Python
+dictionary.</div>
+</figure><p>Now, let’s say a friend wanted to borrow the book “‘—All You
+Zombies—’” by Robert Heinlein. If I had my books arranged on a single
+bookshelf (in a list), I would have to look through every book I own in
+order to find it. However, if I had a bookcase with several shelves (a
+hashing data structure), I know immediately that I need to check the
+shelf “Sci-Fi, G—J”, so I’d be able to find it much more quickly!</p>
 <div id="technical-explanation" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
@@ -944,7 +947,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.11" class="external-link">sandpaper (0.16.11)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.7" class="external-link">pegboard (0.7.7)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.11" class="external-link">sandpaper (0.16.11)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -966,8 +969,8 @@ any links that you are not going to use.
   "url": "https://RSE-Sheffield.github.io/pando-python/optimisation-data-structures-algorithms.html",
   "identifier": "https://RSE-Sheffield.github.io/pando-python/optimisation-data-structures-algorithms.html",
   "dateCreated": "2024-02-01",
-  "dateModified": "2025-02-19",
-  "datePublished": "2025-02-19"
+  "dateModified": "2025-03-05",
+  "datePublished": "2025-03-05"
 }
 
   </script><script>
