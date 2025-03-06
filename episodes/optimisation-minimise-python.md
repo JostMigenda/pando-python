@@ -139,7 +139,7 @@ There is however a trade-off, using `numpy.random.choice()` can be clearer to so
 
 ### Array broadcasting
 
-NumPy arrays support “broadcasting” many mathematical operations or functions.
+NumPy arrays support “[broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html)” many mathematical operations or functions.
 This is a shorthand notation, where the operation/function is applied element-wise without having to loop over the array explicitly:
 
 ```Python
@@ -158,7 +158,9 @@ array([  1.        ,   2.71828183,   7.3890561 ,  20.08553692,
         54.59815003, 148.4131591 ])
 ```
 
-Note that this does not work with Python lists in many cases:
+::::::::::::::::::::::::::::::::::::: callout
+
+If you try the same with Python lists, it will usually fail with an error or give an unexpected result:
 
 ```Python
 >>> ls = list(range(6))
@@ -176,16 +178,14 @@ Traceback (most recent call last):
     ls ** 2
     ~~~^^~~
 TypeError: unsupported operand type(s) for ** or pow(): 'list' and 'int'
->>> np.exp(ls)
+>>> np.exp(ls)  # works but is slower, because NumPy converts the list into an array first
 array([  1.        ,   2.71828183,   7.3890561 ,  20.08553692,
         54.59815003, 148.4131591 ])
 ```
+:::::::::::::::::::::::::::::::::::::::::::::
 
-### Vectorisation
-
-However, broadcasting is not just a nicer way to write mathematical expressions—it can also give a significant performance boost.
-
-The manner by which NumPy stores data in arrays enables its functions to utilise vectorisation, where the processor executes one instruction across multiple variables simultaneously, for every mathematical operation between arrays.
+However, broadcasting is not just a nicer way to write mathematical expressions—it can also give a significant performance boost:
+Most modern processors are able to apply one instruction across multiple variables simultaneously, instead of sequentially. (In computer science, this is also referred to as “vectorisation”.) The manner by which NumPy stores data in arrays enables it to vectorise mathematical operations that are broadcast across arrays.
 
 <!-- Analogy: If you’re baking cookies, the oven (CPU register) is big enough to operate on multiple cookies (numbers) simultaneously. So whether you bake 1 cookie or 10, it’ll take exactly the same amount of time. -->
 
@@ -197,7 +197,8 @@ The manner by which NumPy stores data in arrays enables its functions to utilise
 > python -m timeit -s "import numpy; ar = numpy.arange(100)" "ar + 10"
 1000000 loops, best of 5: 364 nsec per loop
 ```
-Whether we apply the addition to 1, 10 or 100 elements, it takes the same amount of time!
+If we were to use a regular `for` loop, the time to perform this operation would increase with the length of the array.
+However, using NumPy broadcasting we can apply the addition to 1, 10 or 100 elements, all in the same amount of time!
 
 <!-- 
 Here’s a fun example:
@@ -220,7 +221,7 @@ from timeit import timeit
 N = 1_000_000  # Number of elements in list
 
 gen_list = f"ls = list(range({N}))"
-gen_array = f"import numpy;ar = numpy.arange({N}, dtype=numpy.int64)"
+gen_array = f"import numpy; ar = numpy.arange({N}, dtype=numpy.int64)"
 
 py_sum_ls = "sum([i*i for i in ls])"
 py_sum_ar = "sum(ar*ar)"
@@ -360,10 +361,22 @@ for polygon_idx in range(n_polygons):
     
     points_per_polygon[polygon_idx] = points_in_polygon.tolist()
 ```
+::::::::::::::::::::::::::::::::::::: instructor
+
+TODO: add a bit more explanation for instructors here
+
+Maybe also add an example image for illustration?
+
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ### Example: Interpolating astrophysical spectra with AstroPy
 
+<!--
+TODO: This needs more work to be used by instructors other than me.
+And since it’s not a very clean example (mixes np arrays and list comprehensions) and hard to extract a nice before/after snippet,
+maybe it’s better not to include this example in the general course materials? Or only in a callout or instructor note?
+-->
 This is from an open-source package I’m working on, so we can look at the actual pull request where I made this change: https://github.com/SNEWS2/snewpy/pull/310
 
 &rightarrow; See the first table of benchmark results. Note that using a Python `for` loop to calculate the spectrum in 100 different time bins takes 100 times as long as for a single time bin. In the vectorized version, the computing time increases much more slowly.
