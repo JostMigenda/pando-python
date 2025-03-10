@@ -18,7 +18,7 @@ exercises: 0
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-Earlier, we saw that builtin functions in Python, like `sum()`, are often faster than manually looping over a list. This is because those high-level functions are able to do most of the work in the C backend
+Earlier, we saw that built-in Python functions, like `sum()`, are often faster than manually looping over a list. This is because those high-level functions are able to do most of the work in the C backend.
 
 Packages like NumPy and Pandas work similarly: They have been written in compiled languages to expose this performance across a wide range of scientific workloads.
 
@@ -28,13 +28,17 @@ Packages like NumPy and Pandas work similarly: They have been written in compile
 
 [NumPy](https://numpy.org/) is a commonly used package for scientific computing, which provides a wide variety of methods.
 
-It adds restriction via it's own [basic numeric types](https://numpy.org/doc/stable/user/basics.types.html), and static arrays to enable even greater performance than that of core Python. However if these restrictions are ignored, the performance can become significantly worse.
+It adds restriction via its own [basic numeric types](https://numpy.org/doc/stable/user/basics.types.html) and static arrays to enable even greater performance than that of core Python. However if these restrictions are ignored, the performance can become significantly worse.
+
+<!--
+TODO: It might be nice to use the figure from https://jakevdp.github.io/blog/2014/05/09/why-python-is-slow/#3.-Python's-object-model-can-lead-to-inefficient-memory-access here for illustration?
 
 ![Illustration of a NumPy array and a Python list.](episodes/fig/numpyarray_vs_pylist.png){alt="A diagram illustrating the difference between a NumPy array and a Python list. The NumPy array is a raw block of memory containing numerical values. A Python list contains a header with metadata and multiple items, each of which is a reference to another Python object with its own header and value."}
+-->
 
-### NumPy arrays and Python lists live in two separate worlds
+### NumPy Arrays and Python Lists Live in Two Separate Worlds
 
-NumPy's arrays (not to be confused with the core Python `array` package) are static arrays. Unlike core Python's lists, they do not dynamically resize. Therefore if you wish to append to a NumPy array, you must call `resize()` first. If you treat this like `append()` for a Python list, resizing for each individual append you will be performing significantly more copies and memory allocations than a Python list.
+NumPy's arrays (not to be confused with the core Python `array` package) are static arrays. Unlike core Python's lists, they do not dynamically resize. Therefore if you wish to append to a NumPy array, you must call `resize()` first. If you treat this like `append()` for a Python list, resizing for each individual append, you will be performing significantly more copies and memory allocations than a Python list.
 
 The below example sees lists and arrays constructed from `range(100000)`.
 
@@ -54,21 +58,13 @@ def array_resize():
     for i in range(1, N):
         ar.resize(i+1)
         ar[i] = i
-
-def array_preallocate():
-    ar = numpy.zeros(N)
-    for i in range(1, N):
-        ar[i] = i
-
+        
 repeats = 1000
 print(f"list_append: {timeit(list_append, number=repeats):.2f}ms")
 print(f"array_resize: {timeit(array_resize, number=repeats):.2f}ms")
-print(f"array_preallocate: {timeit(array_preallocate, number=repeats):.2f}ms")
 ```
 
-For Python lists, we’ve seen earlier that list comprehensions are more efficient, so we prefer to avoid using a large number of `append` operations if possible. Similarly, we should try to avoid resizing NumPy array, where the overhead is even higher.
-
-Resizing a NumPy array is 5.2x slower than a list, probably 10x slower than list comprehension.
+For Python lists, we've seen earlier that list comprehensions are more efficient, so we prefer to avoid using a large number of `append` operations if possible. Similarly, we should try to avoid resizing NumPy arrays, where the overhead is even higher (5.2x slower than a list, probably 10x slower than list comprehension).
 
 ```output
 list_append: 3.50ms
@@ -114,10 +110,7 @@ The below example demonstrates the overhead of mixing Python lists and NumPy fun
 
 Passing a Python list to `numpy.random.choice()` is 65.6x slower than passing a NumPy array. This is the additional overhead of converting the list to an array. If this function were called multiple times, it would make sense to transform the list to an array before calling the function so that overhead is only paid once.
 
-<!-- Skipping the following callout, because I think it muddles the waters too much and is probably misleading:
-Instead of calling that function N times, you could also use random.choice(ar, size=N) to get a large number of random choices in one call; that might even be more efficient! -->
-
-<!-- ::::::::::::::::::::::::::::::::::::: callout
+::::::::::::::::::::::::::::::::::::: callout
 
 ```sh
 # Python list, Manually select 1 item
@@ -135,11 +128,11 @@ With `numpy.random.choice()` being such a general function (it has many possible
 
 There is however a trade-off, using `numpy.random.choice()` can be clearer to someone reading your code, and is more difficult to use incorrectly.
 
-::::::::::::::::::::::::::::::::::::::::::::: -->
+:::::::::::::::::::::::::::::::::::::::::::::
 
-### Array broadcasting
+### Array Broadcasting
 
-NumPy arrays support “broadcasting” many mathematical operations or functions.
+NumPy arrays support "[broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html)" many mathematical operations or functions.
 This is a shorthand notation, where the operation/function is applied element-wise without having to loop over the array explicitly:
 
 ```Python
@@ -158,7 +151,9 @@ array([  1.        ,   2.71828183,   7.3890561 ,  20.08553692,
         54.59815003, 148.4131591 ])
 ```
 
-Note that this does not work with Python lists in many cases:
+::::::::::::::::::::::::::::::::::::: callout
+
+If you try the same with Python lists, it will usually fail with an error or give an unexpected result:
 
 ```Python
 >>> ls = list(range(6))
@@ -176,18 +171,16 @@ Traceback (most recent call last):
     ls ** 2
     ~~~^^~~
 TypeError: unsupported operand type(s) for ** or pow(): 'list' and 'int'
->>> np.exp(ls)
+>>> np.exp(ls)  # works but is slower, because NumPy converts the list into an array first
 array([  1.        ,   2.71828183,   7.3890561 ,  20.08553692,
         54.59815003, 148.4131591 ])
 ```
+:::::::::::::::::::::::::::::::::::::::::::::
 
-### Vectorisation
+However, broadcasting is not just a nicer way to write mathematical expressions—it can also give a significant performance boost:
+Most modern processors are able to apply one instruction across multiple variables simultaneously, instead of sequentially. (In computer science, this is also referred to as "vectorisation".) The manner by which NumPy stores data in arrays enables it to vectorise mathematical operations that are broadcast across arrays.
 
-However, broadcasting is not just a nicer way to write mathematical expressions—it can also give a significant performance boost.
-
-The manner by which NumPy stores data in arrays enables its functions to utilise vectorisation, where the processor executes one instruction across multiple variables simultaneously, for every mathematical operation between arrays.
-
-<!-- Analogy: If you’re baking cookies, the oven (CPU register) is big enough to operate on multiple cookies (numbers) simultaneously. So whether you bake 1 cookie or 10, it’ll take exactly the same amount of time. -->
+<!-- Analogy: If you're baking cookies, the oven (CPU register) is big enough to operate on multiple cookies (numbers) simultaneously. So whether you bake 1 cookie or 10, it'll take exactly the same amount of time. -->
 
 ```sh
 > python -m timeit -s "import numpy; ar = numpy.arange(1)" "ar + 10"
@@ -197,30 +190,20 @@ The manner by which NumPy stores data in arrays enables its functions to utilise
 > python -m timeit -s "import numpy; ar = numpy.arange(100)" "ar + 10"
 1000000 loops, best of 5: 364 nsec per loop
 ```
-Whether we apply the addition to 1, 10 or 100 elements, it takes the same amount of time!
+If we were to use a regular `for` loop, the time to perform this operation would increase with the length of the array.
+However, using NumPy broadcasting we can apply the addition to 1, 10 or 100 elements, all in the same amount of time!
 
-<!-- 
-Here’s a fun example:
-```sh
-> python -m timeit -s "import numpy; ar = numpy.arange(196_608)" "ar + 10"
-10000 loops, best of 5: 25.9 usec per loop
-> python -m timeit -s "import numpy; ar = numpy.arange(196_609)" "ar + 10"
-5000 loops, best of 5: 62.4 usec per loop
-```
-
-Note that 196_608 `numpy.int64`s are exactly 1.5 MB. So it looks like what we’re seeing there is the size of a CPU cache being exhausted?
--->
-Earlier in this episode it was demonstrated that using core Python methods over a list, will outperform a loop performing the same calculation faster. The below example takes this a step further by demonstrating the calculation of dot product.
+Earlier in this episode it was demonstrated that using core Python methods over a list will outperform a loop, performing the same calculation faster. The below example takes this a step further by demonstrating the calculation of a dot product.
 
 <!-- Inspired by High Performance Python Chapter 6 example 
 Added Python sum array, skipped a couple of others--> 
 ```python
 from timeit import timeit
 
-N = 1_000_000  # Number of elements in list
+N = 1000000  # Number of elements in list
 
 gen_list = f"ls = list(range({N}))"
-gen_array = f"import numpy;ar = numpy.arange({N}, dtype=numpy.int64)"
+gen_array = f"import numpy; ar = numpy.arange({N}, dtype=numpy.int64)"
 
 py_sum_ls = "sum([i*i for i in ls])"
 py_sum_ar = "sum(ar*ar)"
@@ -235,7 +218,7 @@ print(f"numpy_dot_array: {timeit(np_dot_ar, setup=gen_array, number=repeats):.2f
 ```
 
 * `python_sum_list` uses list comprehension to perform the multiplication, followed by the Python core `sum()`. This comes out at 46.93ms
-* `python_sum_array` instead directly multiplies the two arrays, taking advantage of NumPy's vectorisation. But uses the core Python `sum()`, this comes in slightly faster at 33.26ms.
+* `python_sum_array` instead directly multiplies the two arrays (taking advantage of NumPy's vectorisation) but uses the core Python `sum()`, this comes in slightly faster at 33.26ms.
 * `numpy_sum_array` again takes advantage of NumPy's vectorisation for the multiplication, and additionally uses NumPy's `sum()` implementation. These two rounds of vectorisation provide a much faster 1.44ms completion.
 * `numpy_dot_array` instead uses NumPy's `dot()` to calculate the dot product in a single operation. This comes out the fastest at 0.29ms, 162x faster than `python_sum_list`. 
 
@@ -264,46 +247,8 @@ However, HPC systems should be primed to take advantage, so try increasing the n
 
 :::::::::::::::::::::::::::::::::::::
 
-<!-- ### `vectorize()`
 
-Python's `map()` was introduced earlier, for applying a function to all elements within a list.
-NumPy provides `vectorize()` an equivalent for operating over it's arrays.
-
-This doesn't actually make use of processor-level vectorisation, from the [documentation](https://numpy.org/doc/stable/reference/generated/numpy.vectorize.html):
-
-> The `vectorize` function is provided primarily for convenience, not for performance. The implementation is essentially a for loop.
-
-The below example demonstrates how the performance of `vectorize()` is only marginally faster than `map()`.
-
-```python
-N = 100000  # Number of elements in list/array
-
-def genArray():
-    return numpy.arange(N)
-
-def plus_one(x):
-    return x + 1
-    
-def python_map():
-    ar = genArray()
-    return list(map(plus_one, ar))
-
-def numpy_vectorize():
-    ar = genArray()
-    return numpy.vectorize(plus_one)(ar)
-
-repeats = 1000
-gentime = timeit(genArray, number=repeats)
-print(f"python_map: {timeit(python_map, number=repeats)-gentime:.2f}ms")
-print(f"numpy_vectorize: {timeit(numpy_vectorize, number=repeats)-gentime:.2f}ms")
-```
-
-```output
-python_map: 7.94ms
-numpy_vectorize: 7.80ms
-``` -->
-
-## Other libraries that use NumPy
+## Other Libraries That Use NumPy
 
 Across the scientific Python software ecosystem, [many domain-specific packages](https://numpy.org/#:~:text=ECOSYSTEM) are built on top of NumPy arrays.
 Similar to the demos above, we can often gain significant performance boosts by using these libraries well.
@@ -312,7 +257,7 @@ Similar to the demos above, we can often gain significant performance boosts by 
 
 Take a look at the [list of libraries on the NumPy website](https://numpy.org/#:~:text=ECOSYSTEM). Are you using any of them already?
 
-If you’ve brought a project you want to work on: Are there areas of the project where you might benefit from adapting one of these libraries instead of writing your own code from scratch?
+If you've brought a project you want to work on: Are there areas of the project where you might benefit from adapting one of these libraries instead of writing your own code from scratch?
 
 :::::::::::::::::::::::: hint
 
@@ -323,11 +268,11 @@ These libraries could be specific to your area of research; but they could also 
 :::::::::::::::::::::::::::::::::::::::::::::::
 
 
-Which libraries you may use will depend on your research domain; here, we’ll show two examples from our own experience.
+Which libraries you may use will depend on your research domain; here, we'll show two examples from our own experience.
 
-### Example: Image analysis with Shapely
+### Example: Image Analysis with Shapely
 
-A colleague had a large data set of images of cells. She had already reconstructed the locations of cell walls and various points of interest and needed to identify which points were located in each cell.
+A bioinformatics researcher had a large data set of images of cells. She had already reconstructed the locations of cell walls and various points of interest and needed to identify which points were located in each cell.
 To do this, she used the [Shapely](https://github.com/shapely/shapely) geometry library.
 
 ```Python
@@ -350,28 +295,64 @@ For about 500k points and 1000 polygons, the initial version of the code took ab
 Luckily, Shapely is built on top of NumPy, so she was able to apply functions to an array of points instead and wrote an improved version, which took just 20 minutes:
 
 ```Python
+# Extract points and corresponding names as two separate NumPy arrays from a larger data frame
+# This will make it easier to apply vectorised functions below
+points_array = np.array(points.loc[:,"geometry"])
+point_names_array = np.array(points.loc[:,"name"])
+
 points_per_polygon = {}
 for polygon_idx in range(n_polygons):
     current_polygon = polygons.iloc[polygon_idx,:]["geometry"]
 
-    # vectorized: apply `contains` to an array of points at once
-    points_in_polygon_idx = current_polygon.contains(points_list)
-    points_in_polygon = point_names_list[points_in_polygon_idx]
+    # vectorised: apply `contains` to an array of points at once
+    points_in_polygon_idx = current_polygon.contains(points_array)
+    points_in_polygon = point_names_array[points_in_polygon_idx]
     
     points_per_polygon[polygon_idx] = points_in_polygon.tolist()
 ```
+::::::::::::::::::::::::::::::::::::: instructor
 
+To vectorise this efficiently, the logic of the code had to be changed slightly.
 
+The improved code starts by extracting the `shapely.Point`s and corresponding point names as two separate NumPy arrays from a larger data frame.
+We then pass that array of points to `current_polygon.contains()`, which uses vectorisation to speed up the calculation and returns a NumPy array of booleans, describing for each `Point` in the input array whether it is contained in `current_polygon`.
+This boolean array is then [passed as an index](https://numpy.org/doc/stable/user/basics.indexing.html#boolean-array-indexing) to the `point_names_list` array. This returns a new array with the names of all points that are contained in the polygon (i.e. where the boolean array had the value `True`).
+
+The following code snippet demonstrates how this works for a simplified example:
+
+```Python
+>>> from shapely import Point, Polygon
+>>> import numpy as np
+>>> polygon = Polygon([(0,0), (1,0), (1,1), (0,1), (0,0)])
+>>> points_array = np.array((Point(0.1, 0.1), Point(0.5, 0.5), Point(2, 2)))
+>>> point_names_array = np.array(("P1: Periphery", "P2: Centre", "P3: Outside"))
+>>> points_in_polygon_idx = polygon.contains(points_array)
+>>> points_in_polygon_idx
+array([ True,  True, False])
+>>> points_in_polygon = point_names_array[points_in_polygon_idx]
+>>> points_in_polygon
+array(['P1: Periphery', 'P2: Centre'], dtype='<U13')
+>>> points_in_polygon.tolist()
+['P1: Periphery', 'P2: Centre']
+```
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+<!--
+TODO: The following example needs more work to be used by instructors other than me.
+And since it’s not a very clean example (mixes np arrays and list comprehensions) and hard to extract a nice before/after snippet, maybe it’s better not to include this example in the general course materials? Or only in a callout or instructor note?
+-->
+<!--
 ### Example: Interpolating astrophysical spectra with AstroPy
 
-This is from an open-source package I’m working on, so we can look at the actual pull request where I made this change: https://github.com/SNEWS2/snewpy/pull/310
+This is from an open-source package I'm working on, so we can look at the actual pull request where I made this change: https://github.com/SNEWS2/snewpy/pull/310
 
 &rightarrow; See the first table of benchmark results. Note that using a Python `for` loop to calculate the spectrum in 100 different time bins takes 100 times as long as for a single time bin. In the vectorized version, the computing time increases much more slowly.
 
-(Note that energies were already vectorized—that’s another factor of 100 we got “for free”!)
+(Note that energies were already vectorized—that's another factor of 100 we got "for free"!)
 
 Code diff: https://github.com/SNEWS2/snewpy/pull/310/commits/0320b384ff22233818d07913c55c30f5968ae330
-
+ -->
 
 ## Using Pandas (Effectively)
 
@@ -385,7 +366,7 @@ Pandas' methods by default operate on columns. Each column or series can be thou
 
 Following the theme of this episode, iterating over the rows of a data frame using a `for` loop is not advised. The pythonic iteration will be slower than other approaches.
 
-Pandas allows it's own methods to be applied to rows in many cases by passing `axis=1`, where available these functions should be preferred over manual loops. Where you can't find a suitable method, `apply()` can be used, which is similar to `map()`/`vectorize()`, to apply your own function to rows.
+Pandas allows its own methods to be applied to rows in many cases by passing `axis=1`, where available these functions should be preferred over manual loops. Where you can't find a suitable method, `apply()` can be used, which is similar to `map()`, to apply your own function to rows.
 
 ```python
 from timeit import timeit
@@ -432,7 +413,7 @@ print(f"for_iterrows: {timeit(for_iterrows, number=repeats)*10-gentime:.2f}ms")
 print(f"pandas_apply: {timeit(pandas_apply, number=repeats)*10-gentime:.2f}ms")
 ```
 
-`apply()` is 3x faster than the two `for` approaches, as it avoids the Python `for` loop.
+`apply()` is 4x faster than the two `for` approaches, as it avoids the Python `for` loop.
 
 
 ```output
@@ -441,7 +422,7 @@ for_iterrows: 1677.14ms
 pandas_apply: 390.49ms
 ```
 
-However, rows don't exist in memory as arrays (columns do!), so `apply()` does not take advantage of NumPys vectorisation. You may be able to go a step further and avoid explicitly operating on rows entirely by passing only the required columns to NumPy.
+However, rows don't exist in memory as arrays (columns do!), so `apply()` does not take advantage of NumPy's vectorisation. You may be able to go a step further and avoid explicitly operating on rows entirely by passing only the required columns to NumPy.
 
 ```python
 def vectorize():
@@ -451,7 +432,7 @@ def vectorize():
 print(f"vectorize: {timeit(vectorize, number=repeats)-gentime:.2f}ms")
 ```
 
-264x faster than `apply()`, 1000x faster than `for` `iterrows()`!
+264x faster than `apply()`, 1000x faster than the two `for` approaches!
 
 ```
 vectorize: 1.48ms
@@ -515,32 +496,11 @@ dictionary: 3.63ms
 
 If you can filter your rows before processing, rather than after, you may significantly reduce the amount of processing and memory used.
 
-## Exercise: Revisiting Predator/Prey
-
-::::::::::::::::::::::::::::::::::::: challenge
-
-During the Profiling section, we found out that the `Grass.eaten()` method (`predprey.py:278`) takes up the majority of the runtime.
-
-Look back at different approaches for improving performance that we’ve learned so far.
-Which ones could be applied to the `Grass.eaten()` method?
-
-<!-- 
-:::::::::::::::::::::::: hint
-
-* Could use NumPy to parallelize calculation of prey distances (instead of a for loop)
-* Could use `min` (or `np.min`) on the array of prey distances to find the closest prey (rather)
-
-:::::::::::::::::::::::::::::::::
- -->
-:::::::::::::::::::::::::::::::::::::::::::::::
-
-
-
 ::::::::::::::::::::::::::::::::::::: keypoints
 
 - Python is an interpreted language, this adds an additional overhead at runtime to the execution of Python code. Many core Python and NumPy functions are implemented in faster C/C++, free from this overhead.
 - NumPy can take advantage of vectorisation to process arrays, which can greatly improve performance.
 - Many domain-specific packages are built on top of NumPy and can offer similar performance boosts.
-- Pandas' data tables store columns as arrays, therefore operations applied to columns can take advantage of NumPy’s vectorisation.
+- Pandas' data tables store columns as arrays, therefore operations applied to columns can take advantage of NumPy's vectorisation.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::

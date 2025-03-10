@@ -23,44 +23,42 @@ exercises: 5
 
 This episode discusses relatively fundamental features of Python.
 
-For students experienced with writing Python, many of these points may be unnecessary. However, self-taught students—especially if they have previously studied lower-level languages with a less powerful standard library—may have adopted “unpythonic” habits and will particularly benefit from this section.
+For students experienced with writing Python, many of these points may be unnecessary. However, self-taught students—especially if they have previously studied lower-level languages with a less powerful standard library—may have adopted "unpythonic" habits and will particularly benefit from this section.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-Before we look at data structures, algorithms and third-party libraries, we should take a few minutes to make sure we’re familiar with the fundamentals of Python.
-If you’ve learned to program in another language, chances are you’ve picked up some habits from that language that don’t work well in Python.
-
-Most of the bad habits that took me a while to unlearn—and that I’ve observed in others, too—come from learning to program in a lower-level language (like C or Delphi), with a less powerful standard library.
+Before we look at data structures, algorithms and third-party libraries, it's worth reviewing the fundamentals of Python.
+If you're familiar with other programming languages, like C or Delphi, you might not know the Pythonic approaches. Whilst you can write Python in a way similar to other languages, it is often more effective to take advantage of Python's principles and idioms.
 
 
 ## Built-in Functions
 
-For example, back when I was in undergrad, if you’d asked me to sum up a bunch of data points, I would have written something like the first function in this code sample:
+For example, you might think to sum a list of numbers by using a for loop, as would be typical in C, as shown in the function `manualSumC()` and `manualSumPy()` below. 
 
 ```Python
 import random
 from timeit import timeit
 
-N = 100_000  # Number of elements in the list
+N = 100000  # Number of elements in the list
 
 # Ensure every list is the same
 random.seed(12)
 my_data = [random.random() for i in range(N)]
 
 
-def manualSumC():  # my first attempt
+def manualSumC():
     n = 0
     for i in range(len(my_data)):
         n += my_data[i]
     return n
 
-def manualSumPy():  # slightly improved
+def manualSumPy(): 
     n = 0
     for evt_count in my_data:
         n += evt_count
     return n
 
-def builtinSum():  # fastest and most readable
+def builtinSum(): 
     return sum(my_data)
 
 
@@ -70,8 +68,8 @@ print(f"manualSumPy: {timeit(manualSumPy, globals=globals(), number=repeats):.3f
 print(f"builtinSum: {timeit(builtinSum, globals=globals(), number=repeats):.3f}ms")
 ```
 
-Even just replacing the iteration over indices (which may be a habit you’ve picked up if you first learned to program in C) with a more pythonic iteration over the elements themselves speeds up the code by about 2×.
-But even better, by switching to the builtin `sum` function our code becomes about 8× faster, doing the exact same operation!
+Even just replacing the iteration over indices (which may be a habit you’ve picked up if you first learned to program in C) with a more pythonic iteration over the elements themselves speeds up the code by about 2x.
+But even better, by switching to the built-in `sum()` function our code becomes about 8x faster and much easier to read while doing the exact same operation!
 
 ```output
 manualSumC: 1.624ms
@@ -91,15 +89,13 @@ In particular, those which are passed an `iterable` (e.g. lists) are likely to p
 
 <!-- todo exercise/s where pure-python must be converted to use one of the above fns. -->
 
-<!--
 ::::::::::::::::::::::::::::::::::::: callout
 
 The built-in functions [`filter()`](https://docs.python.org/3/library/functions.html#filter) and [`map()`](https://docs.python.org/3/library/functions.html#map) can be used for processing iterables. However list-comprehension is likely to be more performant.
 
-<!-- Would this benefit from an example? --
+<!-- Would this benefit from an example? -->
 
 :::::::::::::::::::::::::::::::::::::::::::::
--->
 
 This is a nice illustration of the principle we discussed earlier:
 It is often best to tell the interpreter/library at a high level *what you want*, and let it figure out *how to do it*.
@@ -111,8 +107,7 @@ A simple example of this would be to perform a linear search of a list. (Though 
 The below example creates a list of 2500 integers in the inclusive-exclusive range `[0, 5000)`.
 It then searches for all of the even numbers in that range.
 `manualSearch()` is implemented manually, iterating `ls` checking each individual item in Python code.
-<!-- TODO: Should this be “keyword” instead of “operator”? -->
-`operatorSearch()` in contrast uses the `in` operator to perform each search, which allows CPython to implement the inner loop in it's C back-end.
+`operatorSearch()` in contrast uses the `in` keyword to perform each search, which allows CPython to implement the inner loop in its C back-end.
 
 ```python
 import random
@@ -158,8 +153,6 @@ An easy approach to follow is that if two blocks of code do the same operation, 
 ::::::::::::::::::::::::::::::::::::: callout
 
 ### Python bytecode
-
-<!-- TODO: skip this section? Or come up with smaller example? -->
 
 
 You can use `dis` to view the bytecode generated by Python, the amount of byte-code more strongly correlates with how much code is being executed by the Python interpreter. However, this still does not account for whether functions called are implemented using Python or C.
@@ -306,7 +299,7 @@ f = [
 ]
 ```
 
-A colleague (who learned to program in C before he started using Python) wrote the following code to parse the data into a dictionary:
+If you've a C programming background, you may write the following code to parse the data into a dictionary:
 ```python
 def manualSplit():
     data = {}
@@ -316,7 +309,7 @@ def manualSplit():
 
         energy_found = line.find(".", end_time, -1)
         begin_energy = line.rfind(" ", end_time, energy_found)
-        end_energy = line.find(" ", energy_found, -1)
+        end_energy = line.find(" ", energy_found)
         if end_energy == -1:
             end_energy = len(line)
         
@@ -329,11 +322,9 @@ def manualSplit():
 
 Can you find a shorter, more easily understandable way to write this in Python?
 
-<!-- Did you spot the bug in the manual implementation? ;) -->
-
 :::::::::::::::::::::::: hint
 
-Python strings have a lot of methods to perform common operations, like removing suffixes, replacing substrings, joining or splitting, stripping whitespaces, and much more. See the documentation at https://docs.python.org/3/library/stdtypes.html#string-methods for a full list.
+Python strings have a lot of methods to perform common operations, like removing suffixes, replacing substrings, joining or splitting, stripping whitespaces, and much more. See Python's [string methods documentation](https://docs.python.org/3/library/stdtypes.html#string-methods) for a full list.
 
 :::::::::::::::::::::::::::::::::
 
@@ -349,8 +340,10 @@ def builtinSplit():
     return data
 ```
 
-This is much more readable.
-The code that’s executed by CPython may use similar indexing steps as in `manualSplit`; however, since this is all happening “under the hood” in C code, it is once again faster. 
+This code is not just much more readable; it is also more flexible, since it does not rely on the precise formatting of the input strings.
+(For example, the line `first_char = line.find("0")` in the original code assumes that the time bin starts with the digit 0. That code would likely malfunction if the input file had more than 1000 time bins.)
+
+The code that’s executed by CPython may use a similar approach as in `manualSplit()`; however, since this is all happening "under the hood" in C code, it is once again faster.
 
 ```python
 
@@ -380,7 +373,7 @@ If you’ve brought a project you want to work on: Do you have any similar code 
 
 :::::::::::::::::::::::: hint
 
-Typical cases might include reading data from a file, …, … TODO: more examples?
+<!-- Typical cases might include reading data from a file, …, … TODO: more examples? -->
 
 (Before you try to rewrite those parts of your code, use a profiler to see whether those parts have a noticeable impact on the overall performance of your project. Remember the Donald Knuth quote!)
 

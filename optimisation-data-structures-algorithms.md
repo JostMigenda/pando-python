@@ -65,8 +65,7 @@ CPython for example uses [`newsize + (newsize >> 3) + 6`](https://github.com/pyt
 
 This has two implications:
 
-* If you are creating large static lists, they may use up to 12.5% excess memory.
-<!-- I think that only applies when resizing a list? IIUC, when creating a list of a particular size from scratch, CPython will not overallocate as much memory. See the `list_preallocate_exact` function in `listobject.c`. -->
+* If you are creating large static lists, they will use upto 12.5% excess memory.
 * If you are growing a list with `append()`, there will be large amounts of redundant allocations and copies as the list grows.
 
 ### List Comprehension
@@ -75,7 +74,7 @@ If creating a list via `append()` is undesirable, the natural alternative is to 
 
 List comprehension can be twice as fast at building lists than using `append()`.
 This is primarily because list-comprehension allows Python to offload much of the computation into faster C code.
-General Python loops in contrast can be used for much more, so they remain in Python bytecode during computation which has additional overheads.
+General python loops in contrast can be used for much more, so they remain in Python bytecode during computation which has additional overheads.
 
 This can be demonstrated with the below benchmark:
 
@@ -113,7 +112,7 @@ Results will vary between Python versions, hardware and list lengths. But in thi
 
 ## Tuples
 
-In contrast to lists, Python's tuples are immutable static arrays (similar to strings): Their elements cannot be modified and they cannot be resized.
+In contrast, Python's tuples are immutable static arrays (similar to strings), their elements cannot be modified and they cannot be resized.
 
 Their potential use-cases are greatly reduced due to these two limitations, they are only suitable for groups of immutable properties.
 
@@ -153,26 +152,6 @@ Since Python 3.6, the items within a dictionary will iterate in the order that t
 
 <!-- simple explanation of how a hash-based data structure works -->
 Python's dictionaries are implemented as hashing data structures.
-Explaining how these work will get a bit technical, so let’s start with an analogy:
-
-A Python list is like having a single long bookshelf. When you buy a new book (append a new element to the list), you place it at the far end of the shelf, right after all the previous books.
-
-![A bookshelf corresponding to a Python list.](episodes/fig/bookshelf_list.jpg){alt="An image of a single long bookshelf, with a large number of books."}
-
-A hashing data structure is more like a bookcase with several shelves, labeled by genre (sci-fi, romance, children’s books, non-fiction, …) and author surname. When you buy a new book by Jules Verne, you might place it on the shelf labeled “Sci-Fi, V–Z”.
-And if you keep adding more books, at some point you’ll move to a larger bookcase with more shelves (and thus more fine-grained sorting), to make sure you don’t have too many books on a single shelf.
-
-![A bookshelf corresponding to a Python dictionary.](episodes/fig/bookshelf_dict.jpg){alt="An image of two bookcases, labeled “Sci-Fi” and “Romance”. Each bookcase contains shelves labeled in alphatical order, with zero or few books on each shelf."}
-
-Now, let’s say a friend wanted to borrow the book “'—All You Zombies—'” by Robert Heinlein.
-If I had my books arranged on a single bookshelf (in a list), I would have to look through every book I own in order to find it.
-However, if I had a bookcase with several shelves (a hashing data structure), I know immediately that I need to check the shelf “Sci-Fi, G—J”, so I’d be able to find it much more quickly!
-
-
-::::::::::::::::::::::::::::::::::::: callout
-
-### Technical explanation
-
 Within a hashing data structure each inserted key is hashed to produce a (hopefully unique) integer key.
 The dictionary is pre-allocated to a default size, and the key is assigned the index within the dictionary equivalent to the hash modulo the length of the dictionary.
 If that index doesn't already contain another key, the key (and any associated values) can be inserted.
@@ -181,7 +160,7 @@ When the hashing data structure exceeds a given load factor (e.g. 2/3 of indices
 
 ![An visual explanation of linear probing, CPython uses an advanced form of this.](episodes/fig/hash_linear_probing.png){alt="A diagram demonstrating how the keys (hashes) 37, 64, 14, 94, 67 are inserted into a hash table with 11 indices. This is followed by the insertion of 59, 80 and 39 which require linear probing to be inserted due to collisions."}
 
-To retrieve or check for the existence of a key within a hashing data structure, the key is hashed again and a process equivalent to insertion is repeated. However, now the key at each index is checked for equality with the one provided. If any empty index is found before an equivalent key, then the key must not be present in the data structure.
+To retrieve or check for the existence of a key within a hashing data structure, the key is hashed again and a process equivalent to insertion is repeated. However, now the key at each index is checked for equality with the one provided. If any empty index is found before an equivalent key, then the key must not be present in the ata structure.
 
 
 ### Keys
@@ -209,8 +188,6 @@ dict = {}
 dict[MyKey("one", 2, 3.0)] = 12
 ```
 The only limitation is that where two objects are equal they must have the same hash, hence all member variables which contribute to `__eq__()` should also contribute to `__hash__()` and vice versa (it's fine to have irrelevant or redundant internal members contribute to neither).
-
-:::::::::::::::::::::::::::::::::::::
 
 ## Sets
 
@@ -348,7 +325,7 @@ def binary_search_list():
         if k != len(ls) and ls[k] == i:
             j += 1
 
-
+            
 repeats = 1000
 gen_time = timeit(generateInputs, number=repeats)
 print(f"search_set: {timeit(search_set, number=repeats)-gen_time:.2f}ms")
@@ -357,7 +334,7 @@ print(f"binary_search_list: {timeit(binary_search_list, number=repeats)-gen_time
 ```
 
 Searching the set is fastest performing 25,000 searches in 0.04ms.
-This is followed by the binary search of the (sorted) list which is 145x slower, although the list has been filtered for duplicates. A list still containing duplicates would be longer, leading to a more expensive search.
+This is  followed by the binary search of the (sorted) list which is 145x slower, although the list has been filtered for duplicates. A list still containing duplicates would be longer, leading to a more expensive search.
 The linear search of the list is more than 56,600x slower than the fastest, it really shouldn't be used!
 
 ```output

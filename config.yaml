@@ -68,7 +68,7 @@ episodes:
 - optimisation-using-python.md
 - optimisation-data-structures-algorithms.md
 - long-break1.md
-- optimisation-minimise-python.md
+- optimisation-numpy.md
 - optimisation-use-latest.md
 - optimisation-memory.md
 - optimisation-conclusion.md
@@ -76,7 +76,7 @@ episodes:
 # Information for Learners
 learners: 
 - setup.md
-# - registration.md
+- registration.md
 - acknowledgements.md
 - ppp.md
 - reference.md
@@ -92,5 +92,8 @@ profiles:
 # This space below is where custom yaml items (e.g. pinning
 # sandpaper and varnish versions) should live
 
-# varnish: RSE-Sheffield/uos-varnish@main
-# url: 'https://rse.shef.ac.uk/pando-python'
+varnish: RSE-Sheffield/uos-varnish@main
+url: 'https://rse.shef.ac.uk/pando-python'
+
+analytics: |
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="95b3ca57-3bd9-47b0-b1ca-fe819ef65c80"></script>
