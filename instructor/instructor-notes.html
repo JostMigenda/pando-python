@@ -20,11 +20,13 @@
         processEscapes: true
       }
     });
-    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><!-- Responsive Favicon for The Carpentries --><link rel="apple-touch-icon" sizes="180x180" href="../favicons/incubator/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicons/incubator/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../favicons/incubator/favicon-16x16.png">
-<link rel="manifest" href="../favicons/incubator/site.webmanifest">
-<link rel="mask-icon" href="../favicons/incubator/safari-pinned-tab.svg" color="#5bbad5">
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><!-- Responsive Favicon for The Carpentries --><link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" href="../assets/images/UOSSheild_Primary_Violet_RGB.ico" sizes="any">
+<link rel="icon" href="../assets/images/UOSSheild_Primary_Violet_RGB.svg" type="image/svg+xml">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="mask-icon" href="../safari-pinned-tab.svg" color="#5bbad5">
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
@@ -34,7 +36,10 @@
   <div class="container-fluid top-nav-container">
     <div class="col-md-8">
       <div class="large-logo">
-        <img id="incubator-logo" alt="Carpentries Incubator" src="../assets/images/incubator-logo.svg"><span class="badge text-bg-warning">
+        <a href="https://www.sheffield.ac.uk" class="external-link">
+          <img alt="University of Sheffield" src="../assets/images/UOSLogo_Primary_Violet_RGB.svg" class="light-only"><img alt="University of Sheffield" src="../assets/images/UOSLogo_Primary_White_RGB.svg" class="dark-only"></a>
+
+        <span class="badge text-bg-warning">
           <abbr title="This lesson is in the alpha phase, which means that it has been taught once and lesson authors are iterating on feedback.">
             <a href="https://cdh.carpentries.org/the-lesson-life-cycle.html#field-testing-alpha-stage" class="external-link alert-link">
               <i aria-hidden="true" class="icon" data-feather="alert-triangle" style="border-radius: 5px"></i>
@@ -91,7 +96,7 @@
       <span class="menu-title">Menu</span>
     </button>
     <div class="nav-logo">
-      <img class="small-logo" alt="Carpentries Incubator" src="../assets/images/incubator-logo-sm.svg">
+      <img class="small-logo" alt="University of Sheffield" src="../assets/images/UOSSheild_Primary_Violet_RGB.svg">
 </div>
     <div class="lesson-title-md">
       Performance Profiling &amp; Optimisation (Python)
@@ -123,6 +128,7 @@
           </button>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 <hr>
+<li><a class="dropdown-item" href="registration.html">Registration Information</a></li>
 <li><a class="dropdown-item" href="acknowledgements.html">Acknowledgements</a></li>
 <li><a class="dropdown-item" href="ppp.html">Performant Python Patterns (Talk)</a></li>
 <li><a class="dropdown-item" href="reference.html">Reference</a></li>
@@ -354,7 +360,7 @@
 <div class="accordion accordion-flush" id="accordionFlush11">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading11">
-        <a href="optimisation-minimise-python.html">10. Using Scientific Python Libraries (NumPy, Pandas and more)</a>
+        <a href="optimisation-numpy.html">10. Using Scientific Python Packages (NumPy, Pandas and more)</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -424,6 +430,7 @@
                         <a href="../instructor/images.html">Extract All Images</a>
                       </li>
                       <hr>
+<li><a class="dropdown-item" href="registration.html">Registration Information</a></li>
 <li><a class="dropdown-item" href="acknowledgements.html">Acknowledgements</a></li>
 <li><a class="dropdown-item" href="ppp.html">Performant Python Patterns (Talk)</a></li>
 <li><a class="dropdown-item" href="reference.html">Reference</a></li>
@@ -609,9 +616,67 @@ the performant patterns in understanding to aid memorisation.</p>
 data-structure/algorithm internals challenging, if they are still able
 to recognise the demonstrated patterns.</p>
 <hr>
+<br><h3 id="optimisation-data-structures-algorithms-headingInstructor2">
+<a href="optimisation-data-structures-algorithms.html#headingInstructor2">Instructor Note</a><a class="anchor" aria-label="anchor" href="#optimisation-data-structures-algorithms-headingInstructor2"></a>
+</h3>
+<p>The large bookcases in the second illustration, with many shelves
+almost empty, take up a lot more space than the single shelf in the
+first illustration. This may also be interpreted as the dictionary using
+more memory than a list.</p>
+<p>In principle, this is correct. However:</p>
+<ul>
+<li>The actual difference is much less pronounced than in the
+illustration. (A list requires about 8 bytes to keep track of each item,
+while a dictionary requires about 30 bytes.)</li>
+<li>In most cases this net size of the list/dictionary itself is
+negligibly small compared to the size of the objects stored in the list
+or dictionary (e.g. 41 bytes for an empty string or 112 bytes for an
+empty NumPy array).</li>
+</ul>
+<p>In practice, therefore, this trade-off between memory usage and speed
+is usually worth it.</p>
+<hr>
 <br></section><section id="long-break1"><h2 class="section-heading"><a href="long-break1.html">Break</a></h2>
-<hr class="half-width"></section><section id="optimisation-minimise-python"><h2 class="section-heading"><a href="optimisation-minimise-python.html">Using Scientific Python Libraries (NumPy, Pandas and more)</a></h2>
-<hr class="half-width"></section><section id="optimisation-use-latest"><h2 class="section-heading"><a href="optimisation-use-latest.html">Keep Python &amp; Packages up to Date</a></h2>
+<hr class="half-width"></section><section id="optimisation-numpy"><h2 class="section-heading"><a href="optimisation-numpy.html">Using Scientific Python Packages (NumPy, Pandas and more)</a></h2>
+<hr class="half-width">
+<h3 id="optimisation-numpy-headingInstructor1">
+<a href="optimisation-numpy.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#optimisation-numpy-headingInstructor1"></a>
+</h3>
+<p>A simple analogy:</p>
+<p>If you’re baking cookies, the oven (CPU register) is big enough to
+operate on multiple cookies (numbers) simultaneously. So whether you
+bake 1 cookie or 10, it’ll take exactly the same amount of time.
+However, this requires that the cookies are neatly arranged on a baking
+tray (in a contiguous chunk of memory).</p>
+<p>Basic ints/floats in NumPy arrays are arranged like that, so this
+works great. In contrast, numbers in a Python list <a href="https://jakevdp.github.io/blog/2014/05/09/why-python-is-slow/#3.-Python's-object-model-can-lead-to-inefficient-memory-access" class="external-link">are
+spread across memory in a fairly complex arrangement</a>, so cannot
+benefit from this unless you convert them to a NumPy array first.</p>
+<hr>
+<br><h3 id="optimisation-numpy-headingInstructor2">
+<a href="optimisation-numpy.html#headingInstructor2">Instructor Note</a><a class="anchor" aria-label="anchor" href="#optimisation-numpy-headingInstructor2"></a>
+</h3>
+<p>The following code snippet demonstrates how this works for a
+simplified example.</p>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> shapely <span class="im">import</span> Point, Polygon</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> polygon <span class="op">=</span> Polygon([(<span class="dv">0</span>,<span class="dv">0</span>), (<span class="dv">1</span>,<span class="dv">0</span>), (<span class="dv">1</span>,<span class="dv">1</span>), (<span class="dv">0</span>,<span class="dv">1</span>), (<span class="dv">0</span>,<span class="dv">0</span>)])</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> points_array <span class="op">=</span> np.array((Point(<span class="fl">0.1</span>, <span class="fl">0.1</span>), Point(<span class="fl">0.5</span>, <span class="fl">0.5</span>), Point(<span class="dv">2</span>, <span class="dv">2</span>)))</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> point_names_array <span class="op">=</span> np.array((<span class="st">"P1: Periphery"</span>, <span class="st">"P2: Centre"</span>, <span class="st">"P3: Outside"</span>))</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> points_in_polygon_idx <span class="op">=</span> polygon.contains(points_array)</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> points_in_polygon_idx</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>array([ <span class="va">True</span>,  <span class="va">True</span>, <span class="va">False</span>])</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> points_in_polygon <span class="op">=</span> point_names_array[points_in_polygon_idx]</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> points_in_polygon</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>array([<span class="st">'P1: Periphery'</span>, <span class="st">'P2: Centre'</span>], dtype<span class="op">=</span><span class="st">'&lt;U13'</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> points_in_polygon.tolist()</span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>[<span class="st">'P1: Periphery'</span>, <span class="st">'P2: Centre'</span>]</span></code></pre>
+</div>
+<hr>
+<br></section><section id="optimisation-use-latest"><h2 class="section-heading"><a href="optimisation-use-latest.html">Keep Python &amp; Packages up to Date</a></h2>
 <hr class="half-width"></section><section id="optimisation-memory"><h2 class="section-heading"><a href="optimisation-memory.html">Understanding Memory</a></h2>
 <hr class="half-width"></section><section id="optimisation-conclusion"><h2 class="section-heading"><a href="optimisation-conclusion.html">Optimisation Conclusion</a></h2>
 <hr class="half-width"></section></section>
@@ -623,23 +688,36 @@ to recognise the demonstrated patterns.</p>
       </div>
 <!--/div.row-->
       		<footer class="row footer mx-md-3"><hr>
-<div class="col-md-6">
-        <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
+<div class="col-md-2">
+        <a href="https://docs.hpc.shef.ac.uk/en/latest/stanage/index.html" class="external-link">
+          <img alt="Stanage HPC" src="https://docs.hpc.shef.ac.uk/en/latest/_images/Stanage_Black.png" style="width: 100%;" class="dark-invert"></a>
+        <p><a href="https://sites.google.com/sheffield.ac.uk/research-training/research-training" class="external-link">Research Computing Training Home</a></p>
+			</div>
+			<div class="col-md-5">
+        <p>Lesson developed by <a href="https://rse.shef.ac.uk" class="external-link">RSE</a> &amp; <a href="https://www.sheffield.ac.uk/it-services/research" class="external-link">RIT</a></p>
         <p>
 
-        <a href="https://github.com/RSE-Sheffield/pando-python/edit/main/README.md" class="external-link">Edit on GitHub</a>
+          <a href="https://github.com/RSE-Sheffield/pando-python/edit/main/README.md" class="external-link">Edit on GitHub</a>
 
-	
+
         | <a href="https://github.com/RSE-Sheffield/pando-python/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
-        | <a href="https://github.com/RSE-Sheffield/pando-python/" class="external-link">Source</a></p>
-				<p><a href="https://github.com/RSE-Sheffield/pando-python/blob/main/CITATION" class="external-link">Cite</a> | <a href="mailto:robert.chisholm@sheffield.ac.uk">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
-			</div>
-			<div class="col-md-6">
+        | <a href="https://github.com/RSE-Sheffield/pando-python/" class="external-link">Source</a>
+        </p>
+		<p>
+          <a href="https://github.com/RSE-Sheffield/pando-python/blob/main/CITATION.cff" class="external-link">Cite</a> | <a href="mailto:robert.chisholm@sheffield.ac.uk">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a> | <a href="CODE_OF_CONDUCT.html">Code of Conduct</a>
+        </p>
+		</div>
+		<div class="col-md-5">
 
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
-        <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.11" class="external-link">sandpaper (0.16.11)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
+
+        <!--<p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY 4.0</a> by <a href="https://carpentries.org/">The Carpentries</a></p>-->
+        <!--<p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.11">sandpaper (0.16.11)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9">pegboard (0.7.9)</a>, and <a href="https://github.com/RSE-Sheffield/uos-varnish/tree/main">varnish (1.0.4)</a></p>-->
+        <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">Template licensed under CC-BY 4.0</a> by <a href="https://carpentries.org" class="external-link">The Carpentries</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.11" class="external-link">sandpaper (0.16.11)</a>,
+        <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>,
+      and <a href="https://github.com/RSE-Sheffield/uos-varnish/tree/main" class="external-link">varnish (1.0.4) [UoS fork]</a>.</p>
 			</div>
 		</footer>
 </div> <!-- / div.container -->
@@ -652,23 +730,23 @@ to recognise the demonstrated patterns.</p>
     {
   "@context": "https://schema.org",
   "@type": "TrainingMaterial",
-  "@id": "https://RSE-Sheffield.github.io/pando-python/instructor/instructor-notes.html",
+  "@id": "https://rse.shef.ac.uk/pando-python/instructor/instructor-notes.html",
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/TrainingMaterial/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
   "keywords": "python, profiling, optimisation, data structures, algorithms",
   "name": "Instructor Notes",
   "creativeWorkStatus": "active",
-  "url": "https://RSE-Sheffield.github.io/pando-python/instructor/instructor-notes.html",
-  "identifier": "https://RSE-Sheffield.github.io/pando-python/instructor/instructor-notes.html",
+  "url": "https://rse.shef.ac.uk/pando-python/instructor/instructor-notes.html",
+  "identifier": "https://rse.shef.ac.uk/pando-python/instructor/instructor-notes.html",
   "dateCreated": "2024-02-01",
-  "dateModified": "2025-03-05",
-  "datePublished": "2025-03-05"
+  "dateModified": "2025-03-12",
+  "datePublished": "2025-03-12"
 }
 
   </script><script>
 		feather.replace();
-	</script>
+	</script><script defer src="https://cloud.umami.is/script.js" data-website-id="95b3ca57-3bd9-47b0-b1ca-fe819ef65c80"></script>
 </body>
 </html><!-- END:   inst/pkgdown/templates/layout.html-->
 
