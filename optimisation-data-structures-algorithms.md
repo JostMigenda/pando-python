@@ -65,9 +65,9 @@ CPython for example uses [`newsize + (newsize >> 3) + 6`](https://github.com/pyt
 
 This has two implications:
 
-* If you are creating large static lists, they may use up to 12.5% excess memory.
-<!-- I think that only applies when resizing a list? IIUC, when creating a list of a particular size from scratch, CPython will not overallocate as much memory. See the `list_preallocate_exact` function in `listobject.c`. -->
 * If you are growing a list with `append()`, there will be large amounts of redundant allocations and copies as the list grows.
+* The resized list may use up to 12.5% excess memory.
+<!-- This only applies when resizing a list. When creating a list of a particular size from scratch, CPython will not overallocate as much memory: https://github.com/python/cpython/blob/a571a2fd3fdaeafdfd71f3d80ed5a3b22b63d0f7/Objects/listobject.c#L101 -->
 
 ### List Comprehension
 
@@ -151,7 +151,6 @@ Since Python 3.6, the items within a dictionary will iterate in the order that t
 
 ### Hashing Data Structures
 
-<!-- simple explanation of how a hash-based data structure works -->
 Python's dictionaries are implemented as hashing data structures.
 Explaining how these work will get a bit technical, so let’s start with an analogy:
 
@@ -162,11 +161,25 @@ A Python list is like having a single long bookshelf. When you buy a new book (a
 A hashing data structure is more like a bookcase with several shelves, labeled by genre (sci-fi, romance, children’s books, non-fiction, …) and author surname. When you buy a new book by Jules Verne, you might place it on the shelf labeled “Sci-Fi, V–Z”.
 And if you keep adding more books, at some point you’ll move to a larger bookcase with more shelves (and thus more fine-grained sorting), to make sure you don’t have too many books on a single shelf.
 
-![A bookshelf corresponding to a Python dictionary.](episodes/fig/bookshelf_dict.jpg){alt="An image of two bookcases, labeled “Sci-Fi” and “Romance”. Each bookcase contains shelves labeled in alphatical order, with zero or few books on each shelf."}
+![A bookshelf corresponding to a Python dictionary.](episodes/fig/bookshelf_dict.jpg){alt="An image of two bookcases, labelled “Sci-Fi” and “Romance”. Each bookcase contains shelves labelled in alphabetical order, with zero or few books on each shelf."}
 
-Now, let’s say a friend wanted to borrow the book “'—All You Zombies—'” by Robert Heinlein.
+Now, let's say a friend wanted to borrow the book "'—All You Zombies—'" by Robert Heinlein.
 If I had my books arranged on a single bookshelf (in a list), I would have to look through every book I own in order to find it.
 However, if I had a bookcase with several shelves (a hashing data structure), I know immediately that I need to check the shelf “Sci-Fi, G—J”, so I’d be able to find it much more quickly!
+
+::::::::::::::::::::::::::::::::::::: instructor
+
+The large bookcases in the second illustration, with many shelves almost empty, take up a lot more space than the single shelf in the first illustration.
+This may also be interpreted as the dictionary using more memory than a list.
+
+In principle, this is correct. However:
+
+* The actual difference is much less pronounced than in the illustration. (A list requires about 8 bytes to keep track of each item, while a dictionary requires about 30 bytes.)
+* In most cases this net size of the list/dictionary itself is negligibly small compared to the size of the objects stored in the list or dictionary (e.g. 41 bytes for an empty string or 112 bytes for an empty NumPy array).
+
+In practice, therefore, this trade-off between memory usage and speed is usually worth it.
+
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ::::::::::::::::::::::::::::::::::::: callout
@@ -348,7 +361,7 @@ def binary_search_list():
         if k != len(ls) and ls[k] == i:
             j += 1
 
-
+            
 repeats = 1000
 gen_time = timeit(generateInputs, number=repeats)
 print(f"search_set: {timeit(search_set, number=repeats)-gen_time:.2f}ms")

@@ -40,8 +40,8 @@ Performance regressions within major packages should be considered rare, they of
 
 ## Support for older Python versions in the Scientific Python ecosystem
 
-In the last few years, many important packages in the Scientific Python ecosystem have agreed [a common policy](https://scientific-python.org/specs/spec-0000/) on how long to support previous versions of Python.
-Since October 2024, these packages stopped supporting Python 3.10; so if you are still using Python 3.10 (or even older versions), you’re now losing access to new features and performance improvements in NumPy, SciPy, Matplotlib and many other libraries. Time to update!
+In the last few years, many important packages in the Scientific Python ecosystem have agreed [a common policy](https://scientific-python.org/specs/spec-0000/) to support previous versions of Python for 3 years.
+For example, since October 2024, these packages stopped supporting Python 3.10; so if you are still using Python 3.10 (or even older versions), you’re now losing access to new features and performance improvements in NumPy, SciPy, Matplotlib and many other libraries. Time to update!
 
 :::::::::::::::::::::::::::::::::::::
 
@@ -64,7 +64,7 @@ This could cause your code to crash, or worse subtly change your results.
 <!-- todo recommended way, because Python is incredibly bad at this -->
 If you have been working with an existing Python installation, the upgrade process for Python itself depends on how you installed your current version. (E.g. via conda, official installer from python.org, package manager like Homebrew/apt/yum/…)
 
-For packages you’re using, you can update those in the same way you installed them:
+For packages you’re using, you can update those with the same package manager you used to installed them:
 
 * via `pip`, e.g. `pip install --upgrade numpy`
 * via `conda`, e.g. `conda update <PACKAGE>`
