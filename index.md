@@ -28,7 +28,7 @@ The simplest answer is that optimisation let you get results faster. It may also
 
 Making your code faster can have additional benefits: faster software uses less compute power. If you use paid-for compute resources, such as cloud computing or some HPC facilities, optimising your code can therefore reduce your costs.
 
-Using less compute power also helps make your software more environmentally sustainable. As funders and research insitutions set Net Zero goals, and computationally-intensive research expands, sustainability is increasingly becoming a concern for researchers. Energy efficiency, alongside hardware efficiency and carbon awareness, is one of the key principles of reducing carbon emissions from software.
+Using less computing power also helps make your software more environmentally sustainable. As funders and research institutions set Net Zero goals, and computationally-intensive research expands, sustainability is increasingly becoming a concern for researchers.
 
 ::::::::::::::::::::::::::::::::::::: callout
 
@@ -39,6 +39,7 @@ To find out more about sustainable computing, visit the [Green DiSC](https://www
 :::::::::::::::::::::::::::::::::::::
 
 However, it's sensible to focus your optimisation efforts on the parts of the code that take the longest. This is where profiling comes in: by profiling your code, you can identify which parts contribute the most to its runtime, and target these for optimisation.
+Even if you don’t find any major performance gains, profiling can give you a better understanding of what your code is doing, or give you confidence that the performance of your code matches your expectations.
 
 ## Learning Objectives
 <!-- Aim for 3-4 objectives for every 6 hours of training -->
