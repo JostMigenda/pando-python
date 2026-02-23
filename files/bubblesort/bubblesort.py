@@ -1,5 +1,5 @@
-import sys
 import random
+import sys
 import time
 
 # Argument parsing
