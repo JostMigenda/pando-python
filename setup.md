@@ -48,15 +48,4 @@ pip install shapely
 :::::::::::::::::::::::::
 
 
-:::::::::::::::: spoiler
-
-### Mac OS (line_profiler)
-
-If you are unable to install `line_profiler` via `pip` on MacOS. Instead it can be installed via `conda`.
-
-```sh
-conda install -c conda-forge line_profiler
-```
-::::::::::::::::::::::::
-
 :::::::::::::::::::::::::::::::::::::::::::::::::::

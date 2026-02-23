@@ -33,7 +33,7 @@ Function-level profiling analyses where time is being spent with respect to func
 This allows functions that occupy a disproportionate amount of the total runtime to be quickly identified and investigated.
 
 <!-- We will be covering -->
-In this episode we will cover the usage of the function-level profiler `cProfile`, how it's output can be visualised with `snakeviz` and how the output can be interpreted.
+In this episode we will cover the usage of the function-level profiler `cProfile`, how its output can be visualised with `snakeviz` and how the output can be interpreted.
 
 
 ::::::::::::::::::::::::::::::::::::: callout
@@ -124,7 +124,7 @@ python -m cProfile -o out.prof my_script.py input.csv
 *No additional changes to your code are required, it's really that simple!*
 
 <!-- TODO should the remainder of this section be in a call-out, it's unnecessary -->
-If you instead, don't specify output to file (e.g. remove `-o out.prof` from the command), `cProfile` will produce output to console similar to that shown below:
+If you don't specify output to file (e.g. remove `-o out.prof` from the command), `cProfile` will produce output to console similar to that shown below:
 
 ```output
          28 function calls in 4.754 seconds
@@ -153,7 +153,7 @@ The columns have the following definitions:
 | `percall` | The average tottime per function call (`tottime`/`ncalls`). |
 | `cumtime` | The total time spent in the given function, including child function calls. |
 | `percall` | The average cumtime per function call (`cumtime`/`ncalls`). |
-| `filename:lineno(function)` | The location of the given function's definition and it's name. |
+| `filename:lineno(function)` | The location of the given function's definition and its name. |
 
 This output can often exceed the terminal's buffer length for large programs and can be unwieldy to parse, so the package `snakeviz` is often utilised to provide an interactive visualisation of the data when exported to file.
 
@@ -402,7 +402,7 @@ The value of `cities` should be a positive integer, this algorithm has poor scal
 
 The hotspot only becomes visible when an argument of `5` or greater is passed.
 
-You should see that `distance()` (from `travellingsales.py:11`) becomes the largest box (similarly it's parent in the call-stack `total_distance()`) showing that it scales poorly with the number of cities. With 5 cities, `distance()` has a cumulative time of `~35%` the runtime, this increases to `~60%` with 9 cities.
+You should see that `distance()` (from `travellingsales.py:11`) becomes the largest box (similarly its parent in the call-stack `total_distance()`) showing that it scales poorly with the number of cities. With 5 cities, `distance()` has a cumulative time of `~35%` the runtime, this increases to `~60%` with 9 cities.
 
 Other boxes within the diagram correspond to the initialisation of imports, or initialisation of cities. These have constant or linear scaling, so their cost barely increases with the number of cities.
 
@@ -429,7 +429,7 @@ python -m snakeviz predprey_out.prof
 
 ## Exercise 2: Predator Prey
 
-Download and profile <a href="files/pred-prey/predprey.py" download>the Python predator prey model</a>, try to locate the function call(s) where the majority of execution time is being spent
+Download and profile <a href="files/pred-prey/predprey.py" download>the Python predator prey model</a>, try to locate the function call(s) where the majority of execution time is being spent.
 
 *This exercise uses the packages `numpy` and `matplotlib`, they can be installed via `pip install numpy matplotlib`.* 
 
@@ -438,7 +438,7 @@ Download and profile <a href="files/pred-prey/predprey.py" download>the Python p
 > The three agents; predators, prey and grass exist in a two dimensional grid. Predators eat prey, prey eat grass. The size of each population changes over time. Depending on the parameters of the model, the populations may oscillate, grow or collapse due to the availability of their food source.
 
 The program can be executed via `python predprey.py <steps>`.
-The value of `steps` for a full run is 250, however a full run may not be necessary to find the bottlenecks.
+The value of `steps` for a full run is 400, which may take a few minutes. However, using 100–200 steps should be sufficient to find the bottlenecks.
 
 When the model finishes it outputs a graph of the three populations `predprey_out.png`.
 
@@ -454,13 +454,13 @@ If the table is ordered by `ncalls`, it can be identified as the joint 4th most 
 
 If you checked `predprey_out.png` (shown below), you should notice that there are significantly more `Grass` agents than `Predators` or `Prey`.
 
-![`predprey_out.png` as produced by the default configuration of `predprey.py`.](episodes/fig/predprey_out.png){alt="A line graph plotting population over time through 250 steps of the pred prey model. Grass/20, shown in green, has a brief dip in the first 30 steps, but recovers holding steady at approximately 240 (4800 agents). Prey, shown in blue, starts at 200, quickly drops to around 185, before levelling off for steps and then slowly declining to a final value of 50. The data for predators, shown in red, has significantly more noise. There are 50 predators to begin, this rises briefly before falling to around 10, from here it noisily grows to around 70 by step 250 with several larger declines during the growth."}
+![`predprey_out.png` as produced by the default configuration of `predprey.py`.](episodes/fig/predprey_out.png){alt="A line graph plotting population over time through 400 time steps of the pred prey model. The amount of grass, shown in green, is scaled down by a factor of 20 to fit onto the graph. It has a brief dip in the first 25 steps, then slowly declines from approximately 220 to 150 over the next 200 steps, before steadily returning to 250. The number of prey, shown in blue, starts at 200, then grows to around 600 after 200 steps, before declining quickly and reaching zero at 350 to 400 steps. The number of predators, shown in red, falls from 50 to around 30 after 15 time steps, then grows to almost 700 by step 330 before declining quickly."}
 
 Similarly, the `Grass::eaten()` has a `percall` time is inline with other agent functions such as `Prey::flock()` (from `predprey.py:67`).
 
 Maybe we could investigate this further with line profiling!
 
-*You may have noticed many iciles on the right hand of the diagram, these primarily correspond to the `import` of `matplotlib` which is relatively expensive!*
+*You may have noticed many icicles on the right hand of the diagram, these primarily correspond to the `import` of `matplotlib` which is relatively expensive!*
 
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::::::
